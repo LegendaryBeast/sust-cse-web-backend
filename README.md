@@ -332,9 +332,8 @@ This project is developed for the Computer Science & Engineering Department of S
 
 ## 👥 Team
 
-- **Developer**: [Your Name]
+- **Developer**: [Tanzim Hasan Prappo - 2021331006]
 - **Department**: Computer Science & Engineering, SUST
-- **Academic Year**: 2024
 
 ## 📞 Support
 
@@ -342,4 +341,4 @@ For issues, questions, or contributions, please open an issue on GitHub or conta
 
 ---
 
-**Note**: This is an active development project. Features and documentation are continuously updated.
+**Note**: This project is made for Academic Purpose.
