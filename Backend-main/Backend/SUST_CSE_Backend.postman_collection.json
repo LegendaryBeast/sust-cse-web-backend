@@ -1,0 +1,880 @@
+{
+    "info": {
+        "_postman_id": "sust-cse-backend-api",
+        "name": "SUST CSE Backend API",
+        "description": "Complete API endpoints for SUST Computer Science and Engineering website backend",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "item": [
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/health",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "health"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.environment.set(\"auth_token\", jsonData.data.token);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"admin@sust.edu\",\n    \"password\": \"admin123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Current User",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/auth/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Register Admin (Superadmin Only)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"newadmin\",\n    \"email\": \"newadmin@sust.edu\",\n    \"password\": \"password123\",\n    \"role\": \"admin\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Faculty",
+            "item": [
+                {
+                    "name": "Get All Faculty",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/faculty",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "faculty"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Single Faculty",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/faculty/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "faculty",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "FACULTY_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Faculty",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Dr. John Doe\",\n    \"designation\": \"Associate Professor\",\n    \"email\": \"john.doe@sust.edu\",\n    \"phone\": \"+880-821-713494\",\n    \"image\": \"/images/john.jpg\",\n    \"education\": [\n        \"PhD in Computer Science, MIT\",\n        \"MSc in CSE, SUST\"\n    ],\n    \"research\": [\n        \"Artificial Intelligence\",\n        \"Machine Learning\",\n        \"Natural Language Processing\"\n    ],\n    \"publications\": [\n        \"AI in Education - IEEE 2023\",\n        \"Deep Learning Approaches - ACM 2022\"\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/faculty",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "faculty"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Faculty",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Dr. John Doe Updated\",\n    \"designation\": \"Professor\",\n    \"email\": \"john.doe@sust.edu\",\n    \"phone\": \"+880-821-713494\",\n    \"image\": \"/images/john.jpg\",\n    \"education\": [\n        \"PhD in Computer Science, MIT\",\n        \"MSc in CSE, SUST\"\n    ],\n    \"research\": [\n        \"Artificial Intelligence\",\n        \"Machine Learning\"\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/faculty/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "faculty",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "FACULTY_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Faculty",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/faculty/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "faculty",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "FACULTY_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Courses",
+            "item": [
+                {
+                    "name": "Get All Courses",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/courses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "courses"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Courses by Level - Undergraduate",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/courses/level/Undergraduate",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "courses",
+                                "level",
+                                "Undergraduate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Courses by Level - M.Sc.",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/courses/level/M.Sc.",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "courses",
+                                "level",
+                                "M.Sc."
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Single Course",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/courses/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "COURSE_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Course",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Web Development\",\n    \"code\": \"CSE305\",\n    \"level\": \"Undergraduate\",\n    \"description\": \"Introduction to web development with HTML, CSS, JavaScript, and modern frameworks\",\n    \"credits\": 3\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/courses",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "courses"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Course",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Advanced Web Development\",\n    \"code\": \"CSE305\",\n    \"level\": \"Undergraduate\",\n    \"description\": \"Advanced web development with React, Node.js, and databases\",\n    \"credits\": 4\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/courses/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "COURSE_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Course",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/courses/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "COURSE_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "News/Dashboard",
+            "item": [
+                {
+                    "name": "Get Active News (Public)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/news",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "news"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All News (Admin)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/news/all",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "news",
+                                "all"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Single News",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/news/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "news",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "NEWS_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create News",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"New Research Lab Opening\",\n    \"excerpt\": \"CSE Department is proud to announce the opening of our state-of-the-art AI Research Lab equipped with cutting-edge GPU servers and workstations.\",\n    \"image\": \"/images/lab-opening.jpg\",\n    \"url\": \"/news/4\",\n    \"isActive\": true,\n    \"order\": 4\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/news",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "news"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update News",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Updated News Title\",\n    \"excerpt\": \"Updated excerpt text\",\n    \"image\": \"/images/updated.jpg\",\n    \"url\": \"/news/4\",\n    \"isActive\": false,\n    \"order\": 5\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/news/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "news",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "NEWS_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete News",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/news/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "news",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "NEWS_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Contact",
+            "item": [
+                {
+                    "name": "Submit Contact Form (Public)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Student Name\",\n    \"email\": \"student@example.com\",\n    \"subject\": \"Inquiry about Admission\",\n    \"message\": \"I would like to know more about the admission process for the undergraduate CSE program.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/contact",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "contact"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All Contact Submissions",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/contact",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "contact"
+                            ],
+                            "query": [
+                                {
+                                    "key": "isRead",
+                                    "value": "false",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Single Contact Submission",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/contact/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "contact",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "CONTACT_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Mark Contact as Read",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/contact/:id/read",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "contact",
+                                ":id",
+                                "read"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "CONTACT_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Contact Submission",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/contact/:id",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "contact",
+                                ":id"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "CONTACT_ID_HERE"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "File Upload",
+            "item": [
+                {
+                    "name": "Upload Image",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{auth_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/upload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "upload"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5000/api",
+            "type": "default"
+        },
+        {
+            "key": "auth_token",
+            "value": "",
+            "type": "default"
+        }
+    ]
+}
